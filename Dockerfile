@@ -2,15 +2,13 @@ FROM node:8
 
 LABEL maintainer="Erin Schnabel <schnabel@us.ibm.com> (@ebullientworks)"
 
-RUN  apt-get -qq update \
+RUN wget -q https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb \
+  && apt-get -qq update \
   && DEBIAN_FRONTEND=noninteractive apt-get -qq upgrade -y \
-  && apt-get -qq install -y apt-utils busybox curl wget jq \
+  && apt-get -qq install -y apt-utils busybox curl wget jq xfonts-75dpi xfonts-base \
+  && dpkg -i wkhtmltox_0.12.5-1.stretch_amd64.deb \
   && apt-get -qq clean \
-  && rm -rf /tmp/* /var/lib/apt/lists/*
-
-RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz \
-  && tar xvf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz \
-  && mv wkhtmltox/bin/* /usr/local/bin
+  && rm -rf /tmp/* /var/lib/apt/lists/* wkhtmltox_0.12.5-1.stretch_amd64.deb
 
 ENV PATH="${PATH}:/usr/local/lib/node_modules/marked-it-cli/bin"
 RUN npm install -g marked-it-cli \
