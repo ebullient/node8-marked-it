@@ -2,10 +2,10 @@ FROM node:8
 
 LABEL maintainer="Erin Schnabel <schnabel@us.ibm.com> (@ebullientworks)"
 
-RUN wget -q https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb \
-  && apt-get -qq update \
+RUN apt-get -qq update \
   && DEBIAN_FRONTEND=noninteractive apt-get -qq upgrade -y \
   && apt-get -qq install -y apt-utils busybox curl wget jq xfonts-75dpi xfonts-base \
+  && wget -q https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb \
   && dpkg -i wkhtmltox_0.12.5-1.stretch_amd64.deb \
   && apt-get -qq clean \
   && rm -rf /tmp/* /var/lib/apt/lists/* wkhtmltox_0.12.5-1.stretch_amd64.deb
